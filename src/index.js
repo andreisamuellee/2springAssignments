@@ -1,18 +1,6 @@
-const coursesEn = [
-  "Hamburger, cream sauce and poiled potates",
-  "Goan style fish curry and whole grain rice",
-  "Vegan Chili sin carne and whole grain rice",
-  "Broccoli puree soup, side salad with two napas",
-  "Lunch baguette with BBQ-turkey filling",
-  "Cheese / Chicken / Vege / Halloum burger and french fries"];
-
-const coursesFi = [
-  "Jauhelihapihvi, ruskeaa kermakastiketta ja keitettyä perunaa",
-  "Goalaista kalacurrya ja täysjyväriisiä",
-  "vegaani Chili sin carne ja täysjyväriisi",
-  "Parsakeittoa,lisäkesalaatti kahdella napaksella",
-  "Lunch baguette with BBQ-turkey filling",
-  "Juusto / Kana / Kasvis / Halloumi burgeri ja ranskalaiset"];
+import LunchMenu from './data.json';
+// Test
+console.log('lunch menu object', LunchMenu);
 
 let lang = true;
 let sortFI = false;
@@ -28,57 +16,120 @@ langBtn.addEventListener("click", displayFood);
 sortBtn.addEventListener("click", sortFood);
 rndmBtn.addEventListener("click", randomFood);
 
-coursesFi.forEach(myFunction);
+showList();
 
 function displayFood() {
   if (lang) {
-    list.innerHTML = '';
-    coursesEn.forEach(myFunction);
     lang = false;
-  } else {
     list.innerHTML = '';
-    coursesFi.forEach(myFunction);
+    showList();
+  } else {
     lang = true;
+    list.innerHTML = '';
+    showList();
   }
 }
 
 function sortFood() {
-  if (!lang) {
-    if (!sortEN) {
-      list.innerHTML = '';
-      coursesEn.sort().forEach(myFunction);
-      sortEN = true;
-    } else {
-      list.innerHTML = '';
-      coursesEn.reverse().forEach(myFunction);
-      sortEN = false;
-    }
-  } else {
-    if (!sortFI) {
-      list.innerHTML = '';
-      coursesFi.sort().forEach(myFunction);
-      sortFI = true;
-    } else {
-      list.innerHTML = '';
-      coursesFi.reverse().forEach(myFunction);
-      sortFI = false;
-    }
-  }
-}
 
-function randomFood(){
-  if (lang) {
+  if (!sortEN) {
     list.innerHTML = '';
-    list.innerHTML = coursesFi[Math.floor(Math.random() * coursesFi.length)];
-  } else {
+    let text = [];
+    for (let course in LunchMenu.courses) {
+      let data = LunchMenu.courses[course];
+      if (lang) {
+        console.log('here fi ' + data.title_fi);
+        let li = document.createElement('li').innerHTML = data.title_fi.toString();
+        list.appendChild(li);
+      } else {
+        console.log('here en ' + data.title_en);
+        text.push(data.title_en);
+      }
+    }
+    console.log('here');
+    console.log('sss ' + text);
+    text.sort().forEach(myFunction);
+    console.log('here now');
+    sortEN = true;
+  }
+
+  else {
     list.innerHTML = '';
-    list.innerHTML = coursesEn[Math.floor(Math.random() * coursesEn.length)];
+    let text = [];
+    for (let course in LunchMenu.courses) {
+      let data = LunchMenu.courses[course];
+      if (lang) {
+        text.push(document.createTextNode(data.title_fi));
+      } else {
+        text.push(document.createTextNode(data.title_en));
+      }
+    }
+    list.innerHTML = text.reverse();
+    sortEN = false;
+  }
+
+  if (!sortFI) {
+    list.innerHTML = '';
+    let text = [];
+    for (let course in LunchMenu.courses) {
+      let data = LunchMenu.courses[course];
+      if (lang) {
+        text.push(document.createTextNode(data.title_fi));
+      } else {
+        text.push(document.createTextNode(data.title_en));
+      }
+    }
+    list.innerHTML = text.sort();
+    sortFI = true;
+  }
+
+  else {
+    list.innerHTML = '';
+    let text = [];
+    for (let course in LunchMenu.courses) {
+      let data = LunchMenu.courses[course];
+      if (lang) {
+        text.push(document.createTextNode(data.title_fi));
+      } else {
+        text.push(document.createTextNode(data.title_en));
+      }
+    }
+    list.innerHTML = text.reverse();
+    sortFI = false;
   }
 }
 
 function myFunction(course, index) {
   let li = document.createElement('li');
-  let text = document.createTextNode(course);
+  let text = document.createTextNode(JSON.stringify(course));
   li.appendChild(text);
   list.appendChild(li);
+}
+
+function randomFood() {
+  let i = 1;
+  for (let course in LunchMenu.courses) {
+    i++;
+  }
+  let random = Math.floor(Math.random() * i);
+  if (lang) {
+    list.innerHTML = LunchMenu.courses[random].title_fi;
+  } else {
+    list.innerHTML = LunchMenu.courses[random].title_en;
+  }
+}
+
+function showList() {
+  for (let course in LunchMenu.courses) {
+    let data = LunchMenu.courses[course];
+    let li = document.createElement('li');
+    let text;
+    if (lang) {
+      text = document.createTextNode(data.title_fi);
+    } else {
+      text = document.createTextNode(data.title_en);
+    }
+    li.appendChild(text);
+    list.appendChild(li);
+  }
 }
