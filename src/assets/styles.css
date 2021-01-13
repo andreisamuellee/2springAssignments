@@ -1,3 +1,56 @@
+* {
+  text-align: center;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+h1 {
+  background-color: black;
+  padding: 20px;
+  color: white;
+  border-radius: 20px;
+}
+
+.info {
+  padding: 40px;
+  color: rgb(0, 0, 0);
+  border-radius: 20px;
+  width: 20rem;
+  float: left;
+  margin-top: 5rem;
+  border: 1px solid rgb(161, 0, 0);
+}
+
+.resultParas {
+  padding: 40px;
+  color: rgb(0, 0, 0);
+  border-radius: 20px;
+  width: 15rem;
+  float: right;
+  margin-top: 5rem;
+  border: 1px solid rgb(161, 0, 0);
+}
+
+.form {
+  background-color: rgb(161, 0, 0);
+  padding: 40px;
+  color: white;
+  border-radius: 20px;
+  width: 25rem;
+  float: right;
+  margin-top: 5rem;
+}
+
 body {
-  margin: 10%;
+  width: 100%;
+  max-width: 800px;
+  min-width: 480px;
+  margin: 0 auto;
+}
+
+.lastResult {
+  color: white;
+  padding: 3px;
 }
