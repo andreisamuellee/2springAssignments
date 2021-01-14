@@ -2,6 +2,10 @@ import LunchMenu from './data.json';
 // Test
 console.log('lunch menu object', LunchMenu);
 
+const coursesEn = [];
+
+const coursesFi = [];
+
 let lang = true;
 let sortFI = false;
 let sortEN = false;
@@ -16,143 +20,83 @@ langBtn.addEventListener("click", displayFood);
 sortBtn.addEventListener("click", sortFood);
 rndmBtn.addEventListener("click", randomFood);
 
-showList();
+let eng = false;
+let fi = false;
+activate();
+
+function activate() {
+  for (let course in LunchMenu.courses) {
+    let data = LunchMenu.courses[course];
+    if (lang) {
+      if (fi === false) {
+        console.log('lang fi ' + data.title_fi);
+        coursesFi.push(data.title_fi);
+      }
+    } else {
+      if (eng === false) {
+        console.log('lang en ' + data.title_en);
+        coursesEn.push(data.title_en);
+      }
+    }
+  }
+  fi = true;
+}
+
+
+coursesFi.forEach(myFunction);
 
 function displayFood() {
   if (lang) {
+    list.innerHTML = '';
     lang = false;
-    list.innerHTML = '';
-    showList();
+    activate();
+    eng = true;
+    coursesEn.forEach(myFunction);
   } else {
-    lang = true;
     list.innerHTML = '';
-    showList();
+    lang = true;
+    activate();
+    coursesFi.forEach(myFunction);
   }
 }
 
 function sortFood() {
-
-  if (!sortEN) {
-    list.innerHTML = '';
-    let text = [];
-    for (let course in LunchMenu.courses) {
-      let data = LunchMenu.courses[course];
-      if (lang) {
-        console.log('!sorten here fi ' + data.title_fi);
-        let li = document.createElement('li').innerHTML = data.title_fi.toString();
-      } else {
-        console.log('here en ' + data.title_en);
-        text.push(data.title_en);
-      }
+  if (!lang) {
+    if (!sortEN) {
+      list.innerHTML = '';
+      coursesEn.sort().forEach(myFunction);
+      sortEN = true;
+    } else {
+      list.innerHTML = '';
+      coursesEn.reverse().forEach(myFunction);
+      sortEN = false;
     }
-    console.log('here');
-    console.log('sss ' + text);
-    text.sort().forEach(myFunction);
-    console.log('here now');
-    sortEN = true;
+  } else {
+    if (!sortFI) {
+      list.innerHTML = '';
+      coursesFi.sort().forEach(myFunction);
+      sortFI = true;
+    } else {
+      list.innerHTML = '';
+      coursesFi.reverse().forEach(myFunction);
+      sortFI = false;
+    }
   }
+}
 
-  else {
+function randomFood() {
+  if (lang) {
     list.innerHTML = '';
-    let text = [];
-    for (let course in LunchMenu.courses) {
-      let data = LunchMenu.courses[course];
-      if (lang) {
-        console.log('1 else here fi ' + data.title_fi);
-
-        text.push(document.createTextNode(data.title_fi));
-      } else {
-        text.push(document.createTextNode(data.title_en));
-      }
-
-    }
-    list.innerHTML = text.reverse();
-    sortEN = false;
-  }
-
-  if (!sortFI) {
+    list.innerHTML = coursesFi[Math.floor(Math.random() * coursesFi.length)];
+  } else {
     list.innerHTML = '';
-    let text = [];
-    for (let course in LunchMenu.courses) {
-      let data = LunchMenu.courses[course];
-      if (lang) {
-        console.log('!sortfi here fi ' + data.title_fi);
-
-        text.push(document.createTextNode(data.title_fi));
-      } else {
-        text.push(document.createTextNode(data.title_en));
-      }
-    }
-    list.innerHTML = text.sort();
-    sortFI = true;
-  }
-
-  else {
-    list.innerHTML = '';
-    let text = [];
-    for (let course in LunchMenu.courses) {
-      let data = LunchMenu.courses[course];
-      let li = document.createElement('li');
-      let text;
-      if (lang) {
-        console.log('2 else here fi ' + data.title_fi);
-        text = document.createTextNode(data.title_fi);
-      } else {
-        text.push(document.createTextNode(data.title_en));
-      }
-    }
-    /*
-    for (let course in LunchMenu.courses) {
-      let data = LunchMenu.courses[course];
-      let li = document.createElement('li');
-      let text;
-      if (lang) {
-
-      } else {
-        text = document.createTextNode(data.title_en);
-      }
-      li.appendChild(text);
-      list.appendChild(li);
-    }
-    */
-    li.appendChild(text);
-    list.appendChild(li);
-    list.sort();
-    sortFI = false;
+    list.innerHTML = coursesEn[Math.floor(Math.random() * coursesEn.length)];
   }
 }
 
 function myFunction(course, index) {
   let li = document.createElement('li');
-  let text = document.createTextNode(JSON.stringify(course));
+  let text = document.createTextNode(course);
   li.appendChild(text);
   list.appendChild(li);
-}
-
-function randomFood() {
-  let i = 1;
-  for (let course in LunchMenu.courses) {
-    i++;
-  }
-  let random = Math.floor(Math.random() * i);
-  if (lang) {
-    list.innerHTML = LunchMenu.courses[random].title_fi;
-  } else {
-    list.innerHTML = LunchMenu.courses[random].title_en;
-  }
-}
-
-function showList() {
-  for (let course in LunchMenu.courses) {
-    let data = LunchMenu.courses[course];
-    let li = document.createElement('li');
-    let text;
-    if (lang) {
-      text = document.createTextNode(data.title_fi);
-    } else {
-      text = document.createTextNode(data.title_en);
-    }
-    li.appendChild(text);
-    list.appendChild(li);
-  }
 }
