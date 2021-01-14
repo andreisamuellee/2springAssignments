@@ -38,9 +38,8 @@ function sortFood() {
     for (let course in LunchMenu.courses) {
       let data = LunchMenu.courses[course];
       if (lang) {
-        console.log('here fi ' + data.title_fi);
+        console.log('!sorten here fi ' + data.title_fi);
         let li = document.createElement('li').innerHTML = data.title_fi.toString();
-        list.appendChild(li);
       } else {
         console.log('here en ' + data.title_en);
         text.push(data.title_en);
@@ -59,10 +58,13 @@ function sortFood() {
     for (let course in LunchMenu.courses) {
       let data = LunchMenu.courses[course];
       if (lang) {
+        console.log('1 else here fi ' + data.title_fi);
+
         text.push(document.createTextNode(data.title_fi));
       } else {
         text.push(document.createTextNode(data.title_en));
       }
+
     }
     list.innerHTML = text.reverse();
     sortEN = false;
@@ -74,6 +76,8 @@ function sortFood() {
     for (let course in LunchMenu.courses) {
       let data = LunchMenu.courses[course];
       if (lang) {
+        console.log('!sortfi here fi ' + data.title_fi);
+
         text.push(document.createTextNode(data.title_fi));
       } else {
         text.push(document.createTextNode(data.title_en));
@@ -88,13 +92,32 @@ function sortFood() {
     let text = [];
     for (let course in LunchMenu.courses) {
       let data = LunchMenu.courses[course];
+      let li = document.createElement('li');
+      let text;
       if (lang) {
-        text.push(document.createTextNode(data.title_fi));
+        console.log('2 else here fi ' + data.title_fi);
+        text = document.createTextNode(data.title_fi);
       } else {
         text.push(document.createTextNode(data.title_en));
       }
     }
-    list.innerHTML = text.reverse();
+    /*
+    for (let course in LunchMenu.courses) {
+      let data = LunchMenu.courses[course];
+      let li = document.createElement('li');
+      let text;
+      if (lang) {
+
+      } else {
+        text = document.createTextNode(data.title_en);
+      }
+      li.appendChild(text);
+      list.appendChild(li);
+    }
+    */
+    li.appendChild(text);
+    list.appendChild(li);
+    list.sort();
     sortFI = false;
   }
 }
