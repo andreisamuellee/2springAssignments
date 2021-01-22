@@ -1,47 +1,21 @@
-import LunchMenu from './data.json';
-// Test
-console.log('lunch menu object', LunchMenu);
-
-const coursesEn = [];
-
-const coursesFi = [];
-
-let lang = true;
-let sortFI = false;
-let sortEN = false;
+import SodexoData from './modules/sodexo-data';
 
 const list = document.querySelector('.info');
 const langBtn = document.querySelector('.changeLang');
 const sortBtn = document.querySelector('.sort');
 const rndmBtn = document.querySelector('.rndm');
 
-
 langBtn.addEventListener("click", displayFood);
 sortBtn.addEventListener("click", sortFood);
 rndmBtn.addEventListener("click", randomFood);
 
-let eng = false;
-let fi = false;
-activate();
+console.log(SodexoData);
+const coursesEn = SodexoData.coursesEn;
+const coursesFi = SodexoData.coursesFi;
 
-function activate() {
-  for (let course in LunchMenu.courses) {
-    let data = LunchMenu.courses[course];
-    if (lang) {
-      if (fi === false) {
-        console.log('lang fi ' + data.title_fi);
-        coursesFi.push(data.title_fi);
-      }
-    } else {
-      if (eng === false) {
-        console.log('lang en ' + data.title_en);
-        coursesEn.push(data.title_en);
-      }
-    }
-  }
-  fi = true;
-}
-
+let lang = true;
+let sortFI = false;
+let sortEN = false;
 
 coursesFi.forEach(myFunction);
 
@@ -49,13 +23,10 @@ function displayFood() {
   if (lang) {
     list.innerHTML = '';
     lang = false;
-    activate();
-    eng = true;
     coursesEn.forEach(myFunction);
   } else {
     list.innerHTML = '';
     lang = true;
-    activate();
     coursesFi.forEach(myFunction);
   }
 }
