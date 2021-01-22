@@ -79,7 +79,10 @@ function resetGame() {
 }
 
 
+//code always gets the average of last guess and highest/lowest possible number. This way the code drops half of guesses needed on every guess.
 
+//9 guesses max.
+//1 guess min.
 const play = () => {
   let firstGuess = highestNum / 2;
   let lastGuess = firstGuess;
@@ -90,9 +93,9 @@ const play = () => {
   guessField.value = firstGuess;
   guessSubmit.click();
   let guessNum = 0;
+
   while (!win) {
     if (lowOrHi.innerText === 'Last guess was too low!') {
-      console.log('low');
       guess = Math.round((lastGuess + highest) / 2);
       guessField.value = guess;
       lowest = lastGuess;
@@ -101,7 +104,6 @@ const play = () => {
       guessNum++;
     }
     else if (lowOrHi.innerText === 'Last guess was too high!') {
-      console.log('hi');
       guess = Math.round((lastGuess + lowest) / 2);
       guessField.value = guess;
       highest = lastGuess;
@@ -111,7 +113,6 @@ const play = () => {
     }
     else {
       win = true;
-      console.log('win');
       resetGame();
     }
   }
@@ -119,18 +120,27 @@ const play = () => {
 };
 
 let games = 0;
+
+//total number of guesses per game.
 const guessesPerGame = [];
 
+//runs game 1000 times
 while (games < 1000) {
   guessesPerGame.push(play());
   games++;
-  console.log(guessesPerGame);
 };
+console.log(guessesPerGame);
 
+
+console.log('games '+games);
+
+
+//calculates average. (~4.84 guesses per game)
 let total = 0;
 for(let i = 0; i < guessesPerGame.length; i++) {
     total += guessesPerGame[i];
 }
 let avg = total / guessesPerGame.length;
+
 
 console.log('Average guesses per game = '+avg);
