@@ -1,42 +1,206 @@
-* {
-  text-align: center;
-}
 
-html {
-  font-family: sans-serif;
-}
-
-h1 {
-  background-color: black;
-  padding: 20px;
-  color: white;
-  border-radius: 20px;
-  width: 100%;
-}
-
-.info {
-  padding: 40px;
-  color: rgb(0, 0, 0);
-  border-radius: 20px;
-  border: 1px solid rgb(161, 0, 0);
-  width: 70%;
-}
-
-.btn {
-  margin: 5px;
-  margin-top: 20px;
-  padding: 8px;
-  border-radius: 8px;
-}
-
-body {
-  width: 100%;
-  max-width: 800px;
-  min-width: 480px;
-  margin: 0 auto;
-}
 
 .lastResult {
   color: white;
   padding: 3px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+:root {
+  --green: #43E04F;
+  --magenta: #940E3F;
+  --darkGrey: #343A40;
+  --lightGrey: #9BADBF;
+  --black: #000000;
+
+  --darkGreen: #1D9426;
+  --lightGreen: #65FF71;
+  --pink: #E0437C;
+}
+
+.head {
+  display: flex;
+  font-family: 'Lato', sans-serif;
+  font-weight: 600;
+}
+
+label {
+  visibility: collapse;
+}
+
+.navItm{
+  padding: 0.7em;
+  margin: 1em;
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--magenta);
+  font-size: 1.1rem;
+}
+
+#kolmio {
+  width: 0;
+  height: 0;
+  border-bottom: 150px solid var(--darkGreen);
+  border-right: 100px solid transparent;
+  position: absolute;
+  left:45vw;
+}
+
+.navItm:hover {
+  background-color:var(--magenta);
+  color: white;
+}
+
+.search {
+  padding: 0.3em;
+  margin: 1.5em;
+  margin-left: auto;
+  border-radius: 8px;
+  border: 1px solid var(--magenta);
+  padding-left: 3em;
+}
+
+.searchIcon {
+  fill:var(--magenta);
+  width: 1.5rem;
+  height: 1.5rem;
+  position: absolute;
+  right: 10.75rem;
+  top: 1.9rem;
+}
+
+.location {
+  fill: var(--lightGrey);
+  width: 2.5rem;
+  height: 2.5rem;
+  position: absolute;
+  right: 2rem;
+  top: 1.9rem;
+}
+
+.add {
+  position: relative;
+  color: var(--lightGrey);
+}
+
+.addIcon {
+  fill: var(--lightGrey);
+  width: 2.5rem;
+  height: 2.5rem;
+  position: absolute;
+  left: 53.5rem;
+  top: -25%;
+}
+
+.addIcon:active {
+  fill: var(--black);
+}
+
+.location:hover {
+  fill:var(--lightGreen);
+}
+
+.bannerImg {
+  height: 125%;
+  width: 55vw;
+  overflow: hidden;
+  object-fit: cover;
+}
+
+aside {
+  height: 120px;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+}
+
+#kuva2 {
+  clip-path: circle(50%);
+  shape-outside: circle(50%);
+  float: left;
+  margin: 15px;
+}
+
+#kuva {
+  float: left;
+}
+
+.bannerTxt {
+  font-size: 1rem;
+  padding: 40px 0;
+  width: 45vw;
+  height: 70px;
+  margin: 0;
+  color: white;
+  background-color: var(--darkGreen);
+  text-align: center;
+}
+
+.bannerTxt h1{
+  font-family: 'Roboto Slab', serif;
+  font-weight: 800;
+  font-size: 2em;
+  margin: 0;
+}
+
+.bannerTxt span{
+  font-family: 'Roboto Slab', serif;
+  font-weight: 400;
+}
+
+article{
+  margin: 2em 0 2em 0;
+  margin-top: 4em;
+  text-align: center;
+  font-size: 1.1rem;
+  color: var(--black);
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+div{
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.restItem{
+  width: 20em;
+  height: auto;
+  padding: 1em;
+  margin: 1.5em;
+  border-radius: 10px;
+  border: 1px solid var(--lightGrey);
+  position: relative;
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+}
+
+.restItem h2 {
+  width: 15rem;
+  float: right;
+  color: var(--black);
+  font-weight: 800;
+}
+
+.restItem ul {
+  width: 20rem;
+  float: right;
+  color: var(--black);
+}
+
+.restItem button {
+  margin: 10px;
+}
+
+.restItem img {
+  width: 100px;
+  height: 100px;
 }
