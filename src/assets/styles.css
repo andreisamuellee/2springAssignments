@@ -1,10 +1,3 @@
-
-
-.lastResult {
-  color: white;
-  padding: 3px;
-}
-
 * {
   margin: 0;
   padding: 0;
@@ -12,28 +5,24 @@
 }
 
 :root {
-  --green: #43E04F;
-  --magenta: #940E3F;
-  --darkGrey: #343A40;
-  --lightGrey: #9BADBF;
+  --green: #43e04f;
+  --magenta: #940e3f;
+  --darkGrey: #343a40;
+  --lightGrey: #9badbf;
   --black: #000000;
 
-  --darkGreen: #1D9426;
-  --lightGreen: #65FF71;
-  --pink: #E0437C;
+  --darkGreen: #17771f;
+  --lightGreen: #65ff71;
+  --pink: #e0437c;
 }
 
 .head {
   display: flex;
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
   font-weight: 600;
 }
 
-label {
-  visibility: collapse;
-}
-
-.navItm{
+.navItm {
   padding: 0.7em;
   margin: 1em;
   border-radius: 8px;
@@ -48,11 +37,11 @@ label {
   border-bottom: 150px solid var(--darkGreen);
   border-right: 100px solid transparent;
   position: absolute;
-  left:45vw;
+  left: 45vw;
 }
 
 .navItm:hover {
-  background-color:var(--magenta);
+  background-color: var(--magenta);
   color: white;
 }
 
@@ -66,7 +55,7 @@ label {
 }
 
 .searchIcon {
-  fill:var(--magenta);
+  fill: var(--magenta);
   width: 1.5rem;
   height: 1.5rem;
   position: absolute;
@@ -85,11 +74,11 @@ label {
 
 .add {
   position: relative;
-  color: var(--lightGrey);
+  color: var(--darkGrey);
 }
 
 .addIcon {
-  fill: var(--lightGrey);
+  fill: var(--darkGrey);
   width: 2.5rem;
   height: 2.5rem;
   position: absolute;
@@ -102,7 +91,7 @@ label {
 }
 
 .location:hover {
-  fill:var(--lightGreen);
+  fill: var(--lightGreen);
 }
 
 .bannerImg {
@@ -121,7 +110,6 @@ aside {
 
 #kuva2 {
   clip-path: circle(50%);
-  shape-outside: circle(50%);
   float: left;
   margin: 15px;
 }
@@ -139,39 +127,47 @@ aside {
   color: white;
   background-color: var(--darkGreen);
   text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 
-.bannerTxt h1{
-  font-family: 'Roboto Slab', serif;
+.data {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+}
+
+.bannerTxt h1 {
+  font-family: "Roboto Slab", serif;
   font-weight: 800;
   font-size: 2em;
   margin: 0;
 }
 
-.bannerTxt span{
-  font-family: 'Roboto Slab', serif;
+.bannerTxt span {
+  font-family: "Roboto Slab", serif;
   font-weight: 400;
 }
 
-article{
+aside {
   margin: 2em 0 2em 0;
   margin-top: 4em;
   text-align: center;
   font-size: 1.1rem;
   color: var(--black);
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
   font-weight: 400;
   line-height: 1.6;
 }
 
-div{
+div {
   width: 100vw;
   display: flex;
   justify-content: center;
   font-size: 1.1rem;
 }
 
-.restItem{
+.restItem {
   width: 20em;
   height: auto;
   padding: 1em;
@@ -179,7 +175,7 @@ div{
   border-radius: 10px;
   border: 1px solid var(--lightGrey);
   position: relative;
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
   font-weight: 400;
 }
 
@@ -190,14 +186,10 @@ div{
   font-weight: 800;
 }
 
-.restItem ul {
-  width: 20rem;
+.restItem p {
+  width: 15rem;
   float: right;
   color: var(--black);
-}
-
-.restItem button {
-  margin: 10px;
 }
 
 .restItem img {
