@@ -1,5 +1,5 @@
 const today = new Date().toISOString().split('T')[0];
-const dailyUrl = `https://www.sodexo.fi/ruokalistat/output/daily_json/152/2021-02-08`;
+const dailyUrl = `https://www.sodexo.fi/ruokalistat/output/daily_json/152/${today}`;
 
 /**
  * Parses couse arrays from Sodexo json file
