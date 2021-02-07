@@ -1,157 +1,122 @@
 import SodexoData from './modules/sodexo-data';
 import FazerData from './modules/fazer-data';
+import {fetchGetJson} from './modules/network';
 
+let languageSetting = 'fi';
 
-const list = document.querySelector('#info1');
-const SodexoLangBtn = document.querySelector('.SodexoChangeLang');
-const SodexoSortBtn = document.querySelector('.SodexoSort');
-const SodexoRndmBtn = document.querySelector('.SodexoRndm');
+// console.log('index fasu', FazerData.getDailyMenu(languageSetting));
 
-const list2 = document.querySelector('#info2');
-const FazerLangBtn = document.querySelector('.FazerChangeLang');
-const FazerSortBtn = document.querySelector('.FazerSort');
-const FazerRndmBtn = document.querySelector('.FazerRndm');
-
-SodexoLangBtn.addEventListener("click", SodexoDisplayFood);
-SodexoSortBtn.addEventListener("click", SodexoSortFood);
-SodexoRndmBtn.addEventListener("click", SodexoRandomFood);
-
-FazerLangBtn.addEventListener("click", FazerDisplayFood);
-FazerSortBtn.addEventListener("click", FazerSortFood);
-FazerRndmBtn.addEventListener("click", FazerRandomFood);
-
-const SodexoCoursesEn = SodexoData.coursesEn;
-const SodexoCoursesFi = SodexoData.coursesFi;
-
-let SodexoLang = true;
-let SodexosortFI = false;
-let SodexoSortEn = false;
-
-SodexoCoursesFi.forEach(SodexoMyFunction);
-
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./service-worker.js').then(registration => {
-      console.log('SW registered: ', registration);
-    }).catch(registrationError => {
-      console.log('SW registration failed: ', registrationError);
-    });
-  });
-}
-
-function SodexoDisplayFood() {
-  if (SodexoLang) {
-    list.innerHTML = '';
-    SodexoLang = false;
-    SodexoCoursesEn.forEach(SodexoMyFunction);
-  } else {
-    list.innerHTML = '';
-    SodexoLang = true;
-    SodexoCoursesFi.forEach(SodexoMyFunction);
+/**
+ * Displays lunch menu items as html list
+ *
+ * @param {Array} menuData - Lunch menu array
+ * @param {string} restaurant - element target id
+ */
+const renderMenu = (menuData, restaurant) => {
+  const list = document.querySelector('#' + restaurant);
+  list.innerHTML = '';
+  for (const item of menuData) {
+    const listItem = document.createElement('li');
+    listItem.textContent = item;
+    list.appendChild(listItem);
   }
-}
+};
 
-function SodexoSortFood() {
-  if (!SodexoLang) {
-    if (!SodexoSortEn) {
-      list.innerHTML = '';
-      SodexoCoursesEn.sort().forEach(SodexoMyFunction);
-      SodexoSortEn = true;
-    } else {
-      list.innerHTML = '';
-      SodexoCoursesEn.reverse().forEach(SodexoMyFunction);
-      SodexoSortEn = false;
-    }
+/**
+ * Switch app lang en/fi
+ */
+const switchLanguage = () => {
+  if (languageSetting === 'fi') {
+    languageSetting = 'en';
   } else {
-    if (!SodexosortFI) {
-      list.innerHTML = '';
-      SodexoCoursesFi.sort().forEach(SodexoMyFunction);
-      SodexosortFI = true;
-    } else {
-      list.innerHTML = '';
-      SodexoCoursesFi.reverse().forEach(SodexoMyFunction);
-      SodexosortFI = false;
-    }
+    languageSetting = 'fi';
   }
-}
+  // TODO: fix rendering
+  renderMenu(SodexoData.getDailyMenu(languageSetting), 'sodexo');
+  renderMenu(FazerData.getDailyMenu(languageSetting), 'fazer');
+  console.log('change language to: ', languageSetting);
+};
 
-function SodexoRandomFood() {
-  if (SodexoLang) {
-    list.innerHTML = '';
-    list.innerHTML = SodexoCoursesFi[Math.floor(Math.random() * SodexoCoursesFi.length)];
+/**
+ * Sorts menu alphapetically
+ *
+ * @param {Array} menu
+ * @param {string} order
+ * @returns Sorted menu array
+ */
+const sortMenu = (menu, order) => {
+  if (order == 'desc') {
+    return menu.sort().reverse();
   } else {
-    list.innerHTML = '';
-    list.innerHTML = SodexoCoursesEn[Math.floor(Math.random() * SodexoCoursesEn.length)];
+    return menu.sort();
   }
-}
+};
 
-function SodexoMyFunction(course, index) {
-  let li = document.createElement('li');
-  let text = document.createTextNode(course);
-  li.appendChild(text);
-  list.appendChild(li);
-}
+/**
+ * Eventhandler for sort menu button
+ */
+const renderSortedMenu = () => {
+  // TODO: fix rendering
+  renderMenu(sortMenu(SodexoData.getDailyMenu(languageSetting), 'asc'), 'sodexo');
+  renderMenu(sortMenu(FazerData.getDailyMenu(languageSetting), 'asc'), 'fazer');
+};
 
-//fazer
+/**
+ * Picks a random dish from lunch menu array
+ *
+ * @param {Array} menu
+ * @returns string dish name
+ */
+const pickRandomDish = (menu) => {
+  const randomIndex = Math.floor(Math.random() * menu.length);
+  return menu[randomIndex];
+};
 
-const FazerCoursesEn = FazerData.coursesEn;
-const FazerCoursesFi = FazerData.coursesFi;
+const displayRandomDish = () => {
+  alert(pickRandomDish(SodexoData.getDailyMenu(languageSetting)));
+};
 
-let FazerLang = true;
-let FazersortFI = false;
-let FazerSortEn = false;
 
-FazerCoursesFi.forEach(FazerMyFunction);
+const init = async () => {
+  document.querySelector('#switch-lang').addEventListener('click', switchLanguage);
+  document.querySelector('#sort-menu').addEventListener('click', renderSortedMenu);
+  document.querySelector('#pick-dish').addEventListener('click', displayRandomDish);
 
-function FazerDisplayFood() {
-  if (FazerLang) {
-    list2.innerHTML = '';
-    FazerLang = false;
-    FazerCoursesEn.forEach(FazerMyFunction);
-  } else {
-    list2.innerHTML = '';
-    FazerLang = true;
-    FazerCoursesFi.forEach(FazerMyFunction);
+  try {
+    const dailyMenuJson = await fetchGetJson(SodexoData.dailyUrl);
+    const parsedMenu = SodexoData.getDailyMenu(dailyMenuJson, languageSetting);
+    renderMenu(parsedMenu, 'sodexo');
+  } catch (error) {
+    console.error(error);
+    // TODO: notify user ?
   }
-}
 
-function FazerSortFood() {
-  if (!FazerLang) {
-    if (!FazerSortEn) {
-      list2.innerHTML = '';
-      FazerCoursesEn.sort().forEach(FazerMyFunction);
-      FazerSortEn = true;
-    } else {
-      list2.innerHTML = '';
-      FazerCoursesEn.reverse().forEach(FazerMyFunction);
-      FazerSortEn = false;
-    }
-  } else {
-    if (!FazersortFI) {
-      list2.innerHTML = '';
-      FazerCoursesFi.sort().forEach(FazerMyFunction);
-      FazersortFI = true;
-    } else {
-      list2.innerHTML = '';
-      FazerCoursesFi.reverse().forEach(FazerMyFunction);
-      FazersortFI = false;
-    }
+  try {
+    // TODO: add multilang support
+    const weeklyMenuJson = await fetchGetJson(FazerData.weeklyUrlFi, true);
+    // Get number of the weekday (0: Sun, 1: Mon, etc.)
+    const weekDay = new Date().getDay();
+    const parsedMenu = FazerData.getDailyMenu(weeklyMenuJson, languageSetting, weekDay);
+    renderMenu(parsedMenu, 'fazer');
+    console.log(weeklyMenuJson);
+  } catch (error) {
+    console.error(error);
+    // TODO: notify user ?
   }
-}
 
-function FazerRandomFood() {
-  if (FazerLang) {
-    list2.innerHTML = '';
-    list2.innerHTML = FazerCoursesFi[Math.floor(Math.random() * FazerCoursesFi.length)];
-  } else {
-    list2.innerHTML = '';
-    list2.innerHTML = FazerCoursesEn[Math.floor(Math.random() * FazerCoursesEn.length)];
-  }
-}
+};
+init();
 
-function FazerMyFunction(course, index) {
-  let li = document.createElement('li');
-  let text = document.createTextNode(course);
-  li.appendChild(text);
-  list2.appendChild(li);
-}
+// Service workers registeration below disabled temporarily for easieer local development
+// must be uncommented before building for "production"
+
+// register the service worker (SW) generated by Workbox
+// if ('serviceWorker' in navigator) {
+//   window.addEventListener('load', () => {
+//     navigator.serviceWorker.register('./service-worker.js').then(registration => {
+//       console.log('SW registered: ', registration);
+//     }).catch(registrationError => {
+//       console.log('SW registration failed: ', registrationError);
+//     });
+//   });
+// }

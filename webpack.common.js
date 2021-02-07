@@ -11,27 +11,8 @@ module.exports = {
     app: './src/index.js',
   },
   plugins: [
-    new WebpackPwaManifest({
-      name: 'Lunch Progressive Web App',
-      short_name: 'LunchPWA',
-      description: 'Describe your Progressive Web App here',
-      background_color: '#ffffff',
-      crossorigin: 'use-credentials',
-      icons: [
-        {
-          src: path.resolve('src/assets/icon.png'),
-          sizes: [96, 128, 192, 256, 384, 512]
-        },
-      ]
-    }),
     new CleanWebpackPlugin(),
     new WriteFilePlugin(),
-    new WorkboxPlugin.GenerateSW({
-      // these options encourage the ServiceWorkers to get in there fast
-      // and not allow any straggling "old" SWs to hang around
-      clientsClaim: true,
-      skipWaiting: true,
-    }),
     new CopyPlugin({
       patterns: [
       {
@@ -41,7 +22,7 @@ module.exports = {
       },
     ]}),
     new HtmlWebpackPlugin({
-      title: 'WTMP Starter',
+      title: 'WTMP Kukkuu',
       meta: {
         viewport: 'width=device-width, initial-scale=1.0'
       },
@@ -50,6 +31,25 @@ module.exports = {
         removeComments: true,
         collapseWhitespace: true
       },
+    }),
+    new WorkboxPlugin.GenerateSW({
+      // these options encourage the ServiceWorkers to get in there fast
+      // and not allow any straggling "old" SWs to hang around
+      clientsClaim: true,
+      skipWaiting: true,
+    }),
+    new WebpackPwaManifest({
+      name: 'Lunch Progressive Web App',
+      short_name: 'LunchPWA',
+      description: 'Lunch lists Progressive Web App!',
+      background_color: '#ffffff',
+      crossorigin: 'use-credentials',
+      icons: [
+        {
+          src: path.resolve('src/assets/icon.png'),
+          sizes: [96, 128, 192, 256, 384, 512]
+        },
+      ]
     })
   ],
   output: {
@@ -78,5 +78,5 @@ module.exports = {
         ]
       }
     ]
-  },
+  }
 };
