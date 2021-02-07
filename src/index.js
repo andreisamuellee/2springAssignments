@@ -25,15 +25,27 @@ const renderMenu = (menuData, restaurant) => {
 /**
  * Switch app lang en/fi
  */
-const switchLanguage = () => {
+const switchLanguage = async () => {
   if (languageSetting === 'fi') {
     languageSetting = 'en';
   } else {
     languageSetting = 'fi';
   }
-  // TODO: fix rendering
-  renderMenu(SodexoData.getDailyMenu(languageSetting), 'sodexo');
-  renderMenu(FazerData.getDailyMenu(languageSetting), 'fazer');
+  try {
+    let dailyMenuJsonFaz;
+    if (languageSetting === 'fi') {
+      dailyMenuJsonFaz = await fetchGetJson(FazerData.weeklyUrlFi, true);
+    } else {
+      dailyMenuJsonFaz = await fetchGetJson(FazerData.weeklyUrlEn, true);
+    };
+    const dailyMenuJson = await fetchGetJson(SodexoData.dailyUrl);
+    renderMenu(sortMenu(SodexoData.getDailyMenu(dailyMenuJson, languageSetting), 'asc'), 'sodexo');
+    renderMenu(SodexoData.getDailyMenu(languageSetting), 'sodexo');
+    renderMenu(FazerData.getDailyMenu(dailyMenuJsonFaz, languageSetting), 'fazer');
+  } catch (error) {
+    console.error(error);
+    // TODO: notify user ?
+  }
   console.log('change language to: ', languageSetting);
 };
 
@@ -55,10 +67,21 @@ const sortMenu = (menu, order) => {
 /**
  * Eventhandler for sort menu button
  */
-const renderSortedMenu = () => {
-  // TODO: fix rendering
-  renderMenu(sortMenu(SodexoData.getDailyMenu(languageSetting), 'asc'), 'sodexo');
-  renderMenu(sortMenu(FazerData.getDailyMenu(languageSetting), 'asc'), 'fazer');
+const renderSortedMenu = async () => {
+  try {
+    const dailyMenuJson = await fetchGetJson(SodexoData.dailyUrl);
+    renderMenu(sortMenu(SodexoData.getDailyMenu(dailyMenuJson, languageSetting), 'asc'), 'sodexo');
+    let dailyMenuJsonFaz;
+    if (languageSetting === 'fi') {
+      dailyMenuJsonFaz = await fetchGetJson(FazerData.weeklyUrlFi, true);
+    } else {
+      dailyMenuJsonFaz = await fetchGetJson(FazerData.weeklyUrlEn, true);
+    };
+    renderMenu(sortMenu(FazerData.getDailyMenu(dailyMenuJsonFaz, languageSetting), 'asc'), 'fazer');
+  } catch (error) {
+    console.error(error);
+    // TODO: notify user ?
+  }
 };
 
 /**
@@ -72,8 +95,14 @@ const pickRandomDish = (menu) => {
   return menu[randomIndex];
 };
 
-const displayRandomDish = () => {
-  alert(pickRandomDish(SodexoData.getDailyMenu(languageSetting)));
+const displayRandomDish = async () => {
+  try {
+    const dailyMenuJson = await fetchGetJson(SodexoData.dailyUrl);
+    alert(pickRandomDish(SodexoData.getDailyMenu(dailyMenuJson, languageSetting)));
+  } catch (error) {
+    console.error(error);
+    // TODO: notify user ?
+  }
 };
 
 
@@ -97,6 +126,7 @@ const init = async () => {
     // Get number of the weekday (0: Sun, 1: Mon, etc.)
     const weekDay = new Date().getDay();
     const parsedMenu = FazerData.getDailyMenu(weeklyMenuJson, languageSetting, weekDay);
+    console.log(parsedMenu);
     renderMenu(parsedMenu, 'fazer');
     console.log(weeklyMenuJson);
   } catch (error) {

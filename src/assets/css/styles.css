@@ -204,6 +204,10 @@ div {
   display: none;
 }
 
+li{
+  margin-left: 20px;
+}
+
 .visible {
   display: none;
 }
